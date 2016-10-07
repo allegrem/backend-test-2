@@ -10,11 +10,15 @@ class CallsController < ApplicationController
   end
 
   def log
-    @call = Call.find_by_call_uuid params[:CallUUID]
+    call = Call.find_by_call_uuid params[:CallUUID]
 
     if params[:DialAction] == 'answer'
-      @to = User.find_by_sip params[:DialBLegTo]
-      @call.update! user: @to
+      to = User.find_by_sip params[:DialBLegTo]
+      call.update! user: to
+
+    elsif params[:DialAction] == 'hangup' && params[:DialBLegHangupCause] == 'NORMAL_CLEARING'
+      pickup_time = params[:AnswerTime].to_time - params[:StartTime].to_time
+      call.update! duration: params[:DialBLegDuration], pickup_time: pickup_time
     end
 
     render plain: 'ok'
