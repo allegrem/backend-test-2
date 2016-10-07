@@ -18,7 +18,8 @@ class CallsController < ApplicationController
   def log
     # When someone actually picks up the call
     if params[:DialAction] == 'answer'
-      @call.update! user_number: UserNumber.find_by_sip_endpoint(params[:DialBLegTo])
+      user_number = UserNumber.find_by_sip_endpoint(params[:DialBLegTo])
+      @call.update! user_number: user_number
     # When the call is over, we log the call duration and the time it took to
     # pick up the call
     elsif params[:DialAction] == 'hangup' &&
@@ -27,6 +28,12 @@ class CallsController < ApplicationController
       @call.update! duration: params[:DialBLegDuration], pickup_time: pickup_time
     end
     render nothing: true
+  end
+
+  # When the dial is over. If someone picked up the call, we do nothing.
+  # Otherwise (rejected, timeout, busy,...), we record a voicemail.
+  def end_dial
+    return render nothing: true if params[:CallStatus] == 'completed'
   end
 
   # When no one answers the call and the voicemail has been recorded, we save
