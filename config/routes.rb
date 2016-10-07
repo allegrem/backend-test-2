@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post 'answer' => 'calls#answer'
   post 'log' => 'calls#log', as: 'log_call'
+  post 'voicemail' => 'calls#voicemail', as: 'save_voicemail'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -21,4 +21,11 @@ class CallsController < ApplicationController
 
     render plain: 'ok'
   end
+
+  def voicemail
+    call = Call.find_by_call_uuid params[:CallUUID]
+    call.update! voicemail: params[:RecordFile], duration: params[:RecordingDuration]
+
+    render plain: 'ok'
+  end
 end
