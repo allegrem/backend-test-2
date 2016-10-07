@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007090325) do
+ActiveRecord::Schema.define(version: 20161007093352) do
 
   create_table "calls", force: :cascade do |t|
     t.integer  "user_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20161007090325) do
     t.string   "voicemail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "call_uuid"
   end
 
   add_index "calls", ["user_id"], name: "index_calls_on_user_id"

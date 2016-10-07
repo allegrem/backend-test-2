@@ -4,11 +4,5 @@ class Call < ActiveRecord::Base
   validates :caller, presence: true # TODO: validate format
   # validates :voicemail # TODO: validate format
   validates :user, presence: true, allow_nil: true
-  validate :user_or_voicemail
-
-  private
-
-  def user_or_voicemail
-    errors.add :voicemail, 'is missing' unless user || voicemail.present?
-  end
+  validates :call_uuid, presence: true # TODO: validate format
 end

@@ -1,6 +1,7 @@
 class CallsController < ApplicationController
   def answer
     @from = params[:From]
+    Call.create! caller: @from, call_uuid: params[:CallUUID]
     @users = User.all
   end
 
@@ -9,9 +10,11 @@ class CallsController < ApplicationController
   end
 
   def log
+    @call = Call.find_by_call_uuid params[:CallUUID]
+
     if params[:DialAction] == 'answer'
       @to = User.find_by_sip params[:DialBLegTo]
-      Call.create! caller: params[:DialBLegFrom], user: @to
+      @call.update! user: @to
     end
 
     render plain: 'ok'
