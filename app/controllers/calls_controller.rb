@@ -18,13 +18,13 @@ class CallsController < ApplicationController
   def log
     # When someone actually picks up the call
     if params[:DialAction] == 'answer'
-      call.update! user_number: UserNumber.find_by_sip_endpoint(params[:DialBLegTo])
+      @call.update! user_number: UserNumber.find_by_sip_endpoint(params[:DialBLegTo])
     # When the call is over, we log the call duration and the time it took to
     # pick up the call
     elsif params[:DialAction] == 'hangup' &&
           params[:DialBLegHangupCause] == 'NORMAL_CLEARING'
       pickup_time = params[:AnswerTime].to_time - params[:StartTime].to_time
-      call.update! duration: params[:DialBLegDuration], pickup_time: pickup_time
+      @call.update! duration: params[:DialBLegDuration], pickup_time: pickup_time
     end
     render nothing: true
   end
