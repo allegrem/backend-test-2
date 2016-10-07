@@ -8,7 +8,9 @@ class CallsController < ApplicationController
 
     @from = params[:From]
     Call.create! caller: @from, call_uuid: params[:CallUUID]
-    @users = User.all
+    @user_numbers = User.all
+                        .joins(:user_numbers)
+                        .select('user_numbers.sip_endpoint')
   end
 
   # This route can be triggered by several events during a call, and we act for
@@ -16,7 +18,7 @@ class CallsController < ApplicationController
   def log
     # When someone actually picks up the call
     if params[:DialAction] == 'answer'
-      call.update! user: User.find_by_sip(params[:DialBLegTo])
+      call.update! user_number: UserNumber.find_by_sip_endpoint(params[:DialBLegTo])
     # When the call is over, we log the call duration and the time it took to
     # pick up the call
     elsif params[:DialAction] == 'hangup' &&

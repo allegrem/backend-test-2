@@ -1,7 +1,7 @@
 xml.Response do
-  xml.Dial callerId: @from, callbackUrl: log_call_url, timeout: 30 do
-    @users.each do |user|
-      xml.User user.sip
+  xml.Dial callerId: @from, callbackUrl: log_call_url, timeout: 10 do
+    @user_numbers.each do |user_number|
+      xml.User user_number.sip_endpoint
     end
   end
 
