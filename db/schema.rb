@@ -11,19 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007125215) do
+ActiveRecord::Schema.define(version: 20161007131948) do
 
   create_table "calls", force: :cascade do |t|
-    t.string   "caller"
+    t.string   "from"
     t.string   "voicemail"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.string   "call_uuid"
     t.integer  "pickup_time"
     t.integer  "duration"
     t.integer  "user_number_id"
+    t.integer  "company_number_id"
   end
 
+  add_index "calls", ["company_number_id"], name: "index_calls_on_company_number_id"
   add_index "calls", ["user_number_id"], name: "index_calls_on_user_number_id"
 
   create_table "company_numbers", force: :cascade do |t|
