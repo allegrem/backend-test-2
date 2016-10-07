@@ -7,10 +7,9 @@ class CallsController < ApplicationController
     return render nothing: true unless params[:Event] == 'StartApp'
 
     @from = params[:From]
+    @to = CompanyNumber.find_by_sip_endpoint params[:To]
     Call.create! caller: @from, call_uuid: params[:CallUUID]
-    @user_numbers = User.all
-                        .joins(:user_numbers)
-                        .select('user_numbers.sip_endpoint')
+    @user_numbers = @to.users.joins(:user_numbers).select('user_numbers.sip_endpoint')
   end
 
   # This route can be triggered by several events during a call, and we act for
