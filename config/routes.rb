@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   post 'answer' => 'calls#answer'
-  post 'hangup' => 'calls#hangup'
   post 'log' => 'calls#log', as: 'log_call'
 
   # The priority is based upon order of creation: first created -> highest priority.

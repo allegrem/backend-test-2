@@ -1,12 +1,10 @@
 class CallsController < ApplicationController
   def answer
+    return render plain: 'ok' unless params[:Event] == 'StartApp'
+
     @from = params[:From]
     Call.create! caller: @from, call_uuid: params[:CallUUID]
     @users = User.all
-  end
-
-  def hangup
-    render plain: 'hello world'
   end
 
   def log
