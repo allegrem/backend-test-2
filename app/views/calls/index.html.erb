@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>From</th>
+    <th>To</th>
+    <th>Result</th>
+  </tr>
+
+  <% @calls.each do |call| %>
+  <tr>
+    <td><%= call.from %></td>
+    <td><%= call.company_number.sip_endpoint %></td>
+    <td>
+      <% if call.user_number %>
+        <strong><%= call.user_number.user.name %></strong> picked up the call after
+        <%= call.pickup_time %>s.
+        The call lasted for <%= call.duration %>s.
+      <% elsif call.voicemail %>
+        <audio controls><source src="<%= call.voicemail %>" type="audio/mpeg"></audio>
+      <% else %>
+        No voicemail
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>

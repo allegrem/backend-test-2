@@ -1,6 +1,11 @@
 class CallsController < ApplicationController
   before_action :find_call, only: [:log, :voicemail]
 
+  # Show the logged calls
+  def index
+    @calls = Call.all.order('created_at DESC')
+  end
+
   # When a call comes in, we create a Call log entry and we render the XML file
   # describing how to handle the call
   def answer
