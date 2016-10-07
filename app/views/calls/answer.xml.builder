@@ -1,5 +1,7 @@
 xml.Response do
   xml.Dial callerId: @from do
-    xml.User @to
+    @users.each do |user|
+      xml.User user.sip
+    end
   end
 end

@@ -1,7 +1,7 @@
 class CallsController < ApplicationController
   def answer
     @from = params[:From]
-    @to = User.first.sip
+    @users = User.all
   end
 
   def hangup
